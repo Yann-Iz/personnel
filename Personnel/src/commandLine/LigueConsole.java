@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import commandLineMenus.List;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
-
+import commandLineMenus.examples.employees.core.Employee;
 import personnel.*;
 
 public class LigueConsole 
@@ -46,6 +46,7 @@ public class LigueConsole
 				}
 		);
 	}
+	
 	private Option afficherEmployes(final Ligue ligue)
 	{
 		return new Option("Afficher les employes", "l", () -> {System.out.println(ligue.getEmployes());});
@@ -92,9 +93,11 @@ public class LigueConsole
 				);
 	}
 	
+
+	
 	private Option ajouterEmploye(final Ligue ligue)
 	{
-		return new Option("ajouter un employé", "a",
+		return new Option("ajouter un employé", "a", 
 				() -> 
 				{
 					ligue.addEmploye(getString("nom : "), 
@@ -109,6 +112,16 @@ public class LigueConsole
 		Menu menu = new Menu("Gérer les employés de " + ligue.getNom(), "e");
 		menu.add(afficherEmployes(ligue));
 		menu.add(ajouterEmploye(ligue));
+		menu.add(selectionnerEmploye(ligue));
+		//menu.add(modifierEmploye(ligue));
+		//menu.add(supprimerEmploye(ligue));
+		menu.addBack("q");
+		return menu;
+	}
+	
+	private Menu selectionnerEmploye(Ligue ligue) 
+	{
+		Menu menu = new Menu("Selectionner employe de  " + ligue.getNom(), "e");
 		menu.add(modifierEmploye(ligue));
 		menu.add(supprimerEmploye(ligue));
 		menu.addBack("q");
@@ -128,10 +141,10 @@ public class LigueConsole
 		return null;
 	}		
 
-	private List<Employe> modifierEmploye(final Ligue ligue)
+	private List<Employe> modifierEmploye(final Ligue element)
 	{
 		return new List<>("Modifier un employé", "e", 
-				() -> new ArrayList<>(ligue.getEmployes()),
+				() -> new ArrayList<>(element.getEmployes()),
 				employeConsole.editerEmploye()
 				);
 	}
